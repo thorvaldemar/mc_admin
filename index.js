@@ -3,12 +3,13 @@ const http = require('http');
 const { Server } = require("socket.io");
 const MinecraftServer = require('./MinecraftServer');
 
+const config = new (require('./config'))();
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const minecraft = new MinecraftServer(io);
+const minecraft = new MinecraftServer(io, config);
 
-const config = new (require('./config'))();
 
 // Config exist security
 app.use('/config', require('./pages/config/router'));
@@ -26,8 +27,8 @@ app.post('/topmenu', (req, res) => res.sendFile(`${__dirname}/topmenu.html`));
 app.get('/main.css', (req, res) => res.sendFile(`${__dirname}/main.css`));
 
 // Pages
-app.use('/home', require('./pages/home/router'));
-app.use('/plugin', require('./pages/plugin/router'));
+app.use('/home', new (require('./pages/home/router'))().app);
+app.use('/plugin', new (require('./pages/plugin/router'))(config).app);
 
 // If the site did not exist
 app.use((req, res, next) => res.redirect('/home'));

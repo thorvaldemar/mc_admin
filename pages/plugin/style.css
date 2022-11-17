@@ -19,12 +19,9 @@ p {
     padding: 10px 15px;
     position: relative;
     display: flex;
+    align-items: center;
     margin: 20px 0;
-    cursor: pointer;
-}
-
-.plugins .plugin:hover {
-    transform: scale(1.01);
+    cursor: default;
 }
 
 .plugins .plugin.disabled {
@@ -61,6 +58,12 @@ p {
 }
 
 .plugins .plugin .options i {
+    display: inline-block;
     padding: 5px;
     cursor: pointer;
+    transition: 100ms;
+}
+
+.plugins .plugin .options i:hover {
+    transform: scale(1.05) rotate(10deg);
 }

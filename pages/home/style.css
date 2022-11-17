@@ -1,0 +1,31 @@
+.console {
+    margin: 25px auto;
+}
+
+.console .screen {
+    height: 600px;
+    background-color: black;
+    margin: 0 0 15px;
+    color: green;
+    padding: 10px 15px;
+    font-family: system-ui;
+    font-size: 12px;
+    overflow-y: scroll;
+}
+
+.console .screen::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+  }
+  .console .screen::-webkit-scrollbar-track {
+    background: transparent;        /* color of the tracking area */
+  }
+  .console .screen::-webkit-scrollbar-thumb {
+    background-color: #222;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid #000;  /* creates padding around scroll thumb */
+  }
+
+  .console .screen p {
+    margin: 0;
+    padding: 0;
+}

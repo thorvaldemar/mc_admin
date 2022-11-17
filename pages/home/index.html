@@ -8,16 +8,21 @@
 
     <script src="/header.js"></script>
     <script src="/home/app.js"></script>
+    <link rel="stylesheet" href="/home/style.css">
 </head>
 <body>
     <h1>Mega awesome faction server</h1>
-    <div class="console">
+    <div class="console container">
         <div class="screen">
 
         </div>
-        <form class="input">
-            <input type="text" name="input" id="input">
-            <button type="submit">Send</button>
+        <form class="input row">
+            <div class="col">
+                <input type="text" class="form-control" name="input" id="input">
+            </div>
+            <div class="col-1">
+                <button type="submit" class="btn btn-primary form-control">Send</button>
+            </div>
         </form>
     </div>
 </body>
