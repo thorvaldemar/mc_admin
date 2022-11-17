@@ -4,6 +4,7 @@ const { JSDOM } = require('jsdom');
 const jquery = require('jquery');
 const fs = require('fs');
 const decompress = require('decompress');
+const YAML = require('js-yaml');
 
 const app = express();
 const server = http.createServer(app);
@@ -54,7 +55,7 @@ function pl_get_list(path) {
 function pl_get_name(path) {
     return new Promise((resolve, reject) => {
         decompress(path, { filter: file => /.*plugin.yml/.test(file.path), }).then(files => {
-            resolve([...files[0].data.toString('ascii').matchAll(/^name:[ ]*(.*)/gi)][0][1]);
+            resolve(YAML.load(files[0].data.toString('ascii')).name);
         }).catch(err => reject(err));
     });
 }
