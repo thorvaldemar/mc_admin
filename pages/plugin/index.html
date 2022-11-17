@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC admin | Plugins</title>
+
+    <script src="/header.js"></script>
+    <link rel="stylesheet" href="/plugin/style.css">
+    <script src="/plugin/app.js"></script>
+</head>
+<body>
+    <form ref='uploadPlugin' id='uploadPlugin' action="/plugin/upload" method="post" encType="multipart/form-data">
+        <input name="plugin" type="file" />
+        <button type="submit">Upload file</button>
+    </form>
+    <div id="upload-status"></div>
+    <ul class="plugins">
+        <li class="plugin disabled">
+            <div class="options">
+                <i class="bi bi-toggle-off" id="switch" title="Enable/disable"></i>
+                <!-- <i class="bi bi-pen" id="edit" title="Edit"></i> -->
+                <i class="bi bi-trash3" id="delete" title="Delete"></i>
+            </div>
+            <p id="name">UltimateSurvival</p>
+            <p id="version">V1.0.0</p>
+        </li>
+    </ul>
+</body>
+</html>

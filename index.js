@@ -1,61 +1,38 @@
 const express = require('express');
 const http = require('http');
-const { JSDOM } = require('jsdom');
-const jquery = require('jquery');
-const fs = require('fs');
-const decompress = require('decompress');
-const YAML = require('js-yaml');
+const { Server } = require("socket.io");
+const MinecraftServer = require('./MinecraftServer');
 
 const app = express();
 const server = http.createServer(app);
+const io = new Server(server);
+const minecraft = new MinecraftServer(io);
 
-const config = new (require('./config'))(`${__dirname}/config.json`);
+const config = new (require('./config'))();
+
+// Config exist security
+app.use('/config', require('./pages/config/router'));
+app.use((req, res, next) => {
+    if (!config.configExists())
+        return res.redirect('/config');
+    next();
+});
 
 app.use(require('express-fileupload')());
 
-app.get('/', async (req, res) => {
-    const dom = new JSDOM(fs.readFileSync(`${__dirname}/index.html`, 'ascii'));
-    const $ = jquery(dom.window);
+// Essentials
+app.get('/header.js', (req, res) => res.sendFile(`${__dirname}/header.js`));
+app.post('/topmenu', (req, res) => res.sendFile(`${__dirname}/topmenu.html`));
+app.get('/main.css', (req, res) => res.sendFile(`${__dirname}/main.css`));
 
-    const plugins = await pl_get_list(`${config.server_folder}/plugins`);
-    plugins.forEach(pl => $('#plugins').append(`<li>${pl}</li>`));
+// Pages
+app.use('/home', require('./pages/home/router'));
+app.use('/plugin', require('./pages/plugin/router'));
 
-    res.send(dom.serialize());
-});
+// If the site did not exist
+app.use((req, res, next) => res.redirect('/home'));
 
-app.post('/plugin/upload', (req, res) => {
-    if (!req.files || !req.files.plugin) return res.send({success: false, error: true, reason: "No plugin file was attached"});
-    if (req.files.plugin.name.split('.').pop() != 'jar') return res.send({success: false, error: true, reason: "File is not a .jar type"});
-    req.files.plugin.mv(`${config.server_folder}/plugins/${req.files.plugin.name}`, (err) => { if (err) console.log(err); });
-    res.redirect('/');
-});
-
-app.listen(80, () => {
+server.listen(80, () => {
     console.log(`Listening to *:80`);
 });
 
-function pl_get_list(path) {
-    return new Promise(async (resolve, reject) => {
-        var arr = [];
-        
-        for (const pl of fs.readdirSync(path)) {
-            if (pl.split('.').pop().toLowerCase() !== 'jar') continue;
-            const name = await pl_get_name(`${config.server_folder}/plugins/${pl}`);
-            arr.push(name);
-        }
-
-        resolve(arr);
-    });
-}
-
-/**
- * @param {string} path 
- * @returns {Promise<string>}
- */
-function pl_get_name(path) {
-    return new Promise((resolve, reject) => {
-        decompress(path, { filter: file => /.*plugin.yml/.test(file.path), }).then(files => {
-            resolve(YAML.load(files[0].data.toString('ascii')).name);
-        }).catch(err => reject(err));
-    });
-}

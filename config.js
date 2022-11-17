@@ -6,17 +6,58 @@ const fs = require('fs');
  */
 
 module.exports = class Config {
-    constructor(config_path) {
+    constructor() {
         /** @type {string} */
-        this.config_path = config_path;
+        this.config_path = `${this.getAppFolder()}/config.json`;
 
-        if (!fs.existsSync(this.config_path))
-            throw Error(`Couldn't file config file at: '${this.config_path}'`);
+        /** @type {boolean} */
+        this._configExists = false;
 
         /** @type {RawConfig} */
-        this.raw_config = JSON.parse(fs.readFileSync(this.config_path, 'ascii'));
+        this.raw_config = null;
 
-        /** @type {string} */
-        this.server_folder = this.raw_config.server_folder.replace(/%dirname%/g, __dirname);
+        this.getConfig('');
+    }
+
+    configExists() {
+        this.getConfig('');
+        return this._configExists;
+    }
+
+    /**
+     * @param {'server_folder'} key 
+     * @returns {string}
+     */
+    getConfig(key) {
+        if (!this._configExists) {
+            this._configExists = fs.existsSync(this.config_path);
+            if (!this._configExists) return null;
+            this.raw_config = JSON.parse(fs.readFileSync(this.config_path, 'ascii'));
+        }
+        return this.raw_config[key];
+    }
+
+    /**
+     * @param {RawConfig} data 
+     */
+    save(data) {
+        fs.writeFileSync(this.config_path, JSON.stringify(data));
+    }
+
+    /**
+     * @returns {string}
+     */
+    getAppFolder() {
+        const path = `${this.getDataFolder()}/mcadmin`;
+        if (!fs.existsSync(path))
+            fs.mkdir(path, () => {});
+        return path;
+    }
+
+    /**
+     * @returns {string}
+     */
+    getDataFolder() {
+        return process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share");
     }
 }
