@@ -19,6 +19,7 @@ module.exports = class Config {
         this.raw_config = null;
 
         this.getConfig('');
+        console.log(`Config dir: ${this.getAppFolder()}`);
     }
 
     configExists() {
