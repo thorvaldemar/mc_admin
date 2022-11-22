@@ -11,14 +11,18 @@
     <link rel="stylesheet" href="/home/style.css">
 </head>
 <body>
-    <h1>Mega awesome faction server</h1>
+    <h1>MCAdmin</h1>
+    <button class="btn btn-success" id="start">Start</button>
+    <button class="btn btn-danger" id="stop">Stop</button>
+    <p id="status">Running</p>
     <div class="console container">
-        <div class="screen">
-
-        </div>
+        <div class="screen"></div>
+        <i class="bi bi-arrow-down" id="scroll-down">
+            <p>10</p>
+        </i>
         <form class="input row">
             <div class="col">
-                <input type="text" class="form-control" name="input" id="input">
+                <input type="text" class="form-control" name="input" id="input" autocomplete="off">
             </div>
             <div class="col-1">
                 <button type="submit" class="btn btn-primary form-control">Send</button>

@@ -1,14 +1,14 @@
-const express = require('express');
-const config = new (require('../../config'))();
-const app = express.Router();
+const PageRoute = require('../../PageRoute');
 
-app.get('/', (req, res) => {
-    res.sendFile(`${__dirname}/index.html`);
-});
-
-app.get('/save', (req, res) => {
-    config.save(req.query);
-    res.redirect('../home');
-});
-
-module.exports = app;
+module.exports = class ConfigPage extends PageRoute {
+    init() {
+        this.app.get('/', (req, res) => {
+            res.sendFile(`${__dirname}/index.html`);
+        });
+        
+        this.app.get('/save', (req, res) => {
+            this.config.save(req.query);
+            res.redirect('../home');
+        });
+    }
+}

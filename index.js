@@ -11,8 +11,9 @@ const io = new Server(server);
 const minecraft = new MinecraftServer(io, config);
 
 
+
 // Config exist security
-app.use('/config', require('./pages/config/router'));
+app.use('/config', new (require('./pages/config/router'))(config).app);
 app.use((req, res, next) => {
     if (!config.configExists())
         return res.redirect('/config');

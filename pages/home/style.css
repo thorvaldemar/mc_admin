@@ -1,5 +1,6 @@
 .console {
     margin: 25px auto;
+	position: relative;
 }
 
 .console .screen {
@@ -14,18 +15,45 @@
 }
 
 .console .screen::-webkit-scrollbar {
-    width: 12px;               /* width of the entire scrollbar */
-  }
-  .console .screen::-webkit-scrollbar-track {
-    background: transparent;        /* color of the tracking area */
-  }
-  .console .screen::-webkit-scrollbar-thumb {
-    background-color: #222;    /* color of the scroll thumb */
-    border-radius: 20px;       /* roundness of the scroll thumb */
-    border: 3px solid #000;  /* creates padding around scroll thumb */
-  }
+  	width: 12px;               /* width of the entire scrollbar */
+}
+.console .screen::-webkit-scrollbar-track {
+  	background: transparent;        /* color of the tracking area */
+}
+.console .screen::-webkit-scrollbar-thumb {
+	background-color: #222;    /* color of the scroll thumb */
+	border-radius: 20px;       /* roundness of the scroll thumb */
+	border: 3px solid #000;  /* creates padding around scroll thumb */
+}
 
-  .console .screen p {
-    margin: 0;
-    padding: 0;
+.console .screen p {
+	margin: 0;
+	padding: 0;
+}
+
+.console #scroll-down {
+	position: absolute;
+	bottom: 60px;
+	right: 30px;
+	font-size: 26px;
+	cursor: pointer;
+}
+
+.console #scroll-down p {
+	content: '+99';
+	font-family: system-ui;
+	font-style: normal;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	background-color: #0d6efd;
+	top: 4px;
+	left: 4px;
+	transform: translate(-50%, -50%);
+	font-size: 9px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border-radius: 50%;
 }

@@ -63,11 +63,12 @@ module.exports = class PluginManager {
     static getRawPluginInfo(file) {
         return new Promise((resolve, reject) => {
             decompress(file, { filter: file => /.*plugin.yml/.test(file.path), }).then(files => {
+                if (files.length <= 0) resolve({ name: PATH.basename(file), version: "UNKNOWN PLUGIN YAML", });
                 const clean_yaml = files[0].data.toString('ascii').replace(/^o;\?/g, '');
                 const yaml = YAML.load(clean_yaml);
                 const plugin = {
-                    name: yaml.name,
-                    version: yaml.version,
+                    name: yaml.name || "Unknown",
+                    version: yaml.version || "-",
                 };
                 resolve(plugin);
             }).catch(err => reject(err));

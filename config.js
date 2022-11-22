@@ -3,6 +3,8 @@ const fs = require('fs');
 /**
  * @typedef {Object} RawConfig
  * @property {string} server_folder
+ * @property {number} max_memory
+ * @property {number} max_heap
  */
 
 module.exports = class Config {
@@ -25,7 +27,7 @@ module.exports = class Config {
     }
 
     /**
-     * @param {'server_folder'} key 
+     * @param {'server_folder'|'max_memory'|'max_heap'} key 
      * @returns {string}
      */
     getConfig(key) {
