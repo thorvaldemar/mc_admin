@@ -11,11 +11,17 @@
     <script src="/plugin/app.js"></script>
 </head>
 <body>
-    <form ref='uploadPlugin' id='uploadPlugin' action="/plugin/upload" method="post" encType="multipart/form-data">
-        <input name="plugin" type="file" />
+    <!-- <form ref='uploadPlugin' id='uploadPlugin' action="/plugin/upload" method="post" encType="multipart/form-data">
+        <input name="plugin" id="plugin" type="file" />
         <button type="submit">Upload file</button>
+    </form> -->
+    <form class="pluginUpload">
+        <p>Drag plugin here</p>
+        <input type="file" name="plugin" id="plugin">
+        <button type="submit" class="btn btn-primary">Upload</button>
     </form>
-    <div id="upload-status"></div>
-    <ul class="plugins"></ul>
+    <ul class="plugins">
+        <li id="comment">Loading...</li>
+    </ul>
 </body>
 </html>

@@ -1,0 +1,99 @@
+#############################
+#           SOCKET          #
+#############################
+
+************EVENTS***********
+$ started
+returns
+    Type: VOID
+
+$ stopped
+returns
+    Type: Integer
+    Desc: The error code - 0 if no errors
+
+$ newline
+returns
+    Type: String
+    Desc: The line that was outputtet from the minecraft server
+
+$ disable
+returns
+    Type: String
+    Desc: The plugin which was disabled
+
+$ backlog
+returns
+    Type: String[]
+    Desc: A list of all output lines from the minecraft server
+
+
+************CALLS************
+$ start
+arguments
+    location
+        Type: String (path)
+        Desc: Path to the minecraft server folder
+    heap
+        Type: Integer
+        Desc: Max heap to be used by the minecraft server
+    memory
+        Type: Integer
+        Desc: Max memory to be used by the minecraft server
+returns
+    success
+        Type: Boolean
+        Desc: If the action was a success
+    error
+        Type: Boolean
+        Desc: If any error occoured
+    reason
+        Type: String|null
+        Desc: The reason why the error occoured if any else null
+    ?heap
+        Type: Integer
+        Desc: What heap number was used as max
+    ?memory
+        Type: Integer
+        Desc: What memory number was used as max
+    ?location
+        Type: Integer
+        Desc: The location of the minecraft server
+    ?jarFile
+        Type: Integer
+        Desc: The name of the server (Spigot) .jar file
+
+$ stop
+arguments
+    delay
+        Type: Integer
+        Desc: How many seconds before the server shall stop
+    msg
+        Type: String
+        Desc: The reason why the server is stopping - User %s for the seconds until stop
+returns
+    success
+        Type: Boolean
+        Desc: If the action was a success
+    error
+        Type: Boolean
+        Desc: If any error occoured
+    reason
+        Type: String|null
+        Desc: The reason why the error occoured if any else null
+
+$ write
+arguments
+    command
+        Type: String
+        Desc: The command to be executed on the server
+returns
+    success
+        Type: Boolean
+        Desc: If the action was a success
+    error
+        Type: Boolean
+        Desc: If any error occoured
+    reason
+        Type: String|null
+        Desc: The reason why the error occoured if any else null

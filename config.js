@@ -10,7 +10,7 @@ const fs = require('fs');
 module.exports = class Config {
     constructor() {
         /** @type {string} */
-        this.config_path = `${this.getAppFolder()}/config.json`;
+        this.config_path = `${Config.getAppFolder()}/config.json`;
 
         /** @type {boolean} */
         this._configExists = false;
@@ -19,7 +19,7 @@ module.exports = class Config {
         this.raw_config = null;
 
         this.getConfig('');
-        console.log(`Config dir: ${this.getAppFolder()}`);
+        console.log(`Config dir: ${Config.getAppFolder()}`);
     }
 
     configExists() {
@@ -50,8 +50,8 @@ module.exports = class Config {
     /**
      * @returns {string}
      */
-    getAppFolder() {
-        const path = `${this.getDataFolder()}/mcadmin`;
+    static getAppFolder() {
+        const path = `${Config.getDataFolder()}/mcadmin`;
         if (!fs.existsSync(path))
             fs.mkdir(path, () => {});
         return path;
@@ -60,7 +60,7 @@ module.exports = class Config {
     /**
      * @returns {string}
      */
-    getDataFolder() {
+    static getDataFolder() {
         return process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share");
     }
 }

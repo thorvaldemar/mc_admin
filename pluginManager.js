@@ -2,8 +2,8 @@ const fs = require('fs');
 const PATH = require('path');
 const decompress = require('decompress');
 const YAML = require('js-yaml');
-const config = new (require('./config'))();
-const plugins_file = `${config.getAppFolder()}/plugins.json`;
+const Config = require('./config');
+const plugins_file = `${Config.getAppFolder()}/plugins.json`;
 
 /**
  * @typedef {Object} Plugin
@@ -22,8 +22,9 @@ module.exports = class PluginManager {
             var arr = [];
             
             for (const pl of fs.readdirSync(path)) {
-                if (pl.split('.').pop().toLowerCase() !== 'jar') continue;
+                if (pl.split('.').pop().toLowerCase() !== 'jar' && pl.split('.').pop().toLowerCase() !== 'disabled') continue;
                 const plugin = await this.getInfo(`${path}/${pl}`);
+                plugin['disabled'] = pl.split('.').pop().toLowerCase() === 'disabled';
                 arr.push(plugin);
             }
     
@@ -80,6 +81,54 @@ module.exports = class PluginManager {
      */
      static getPluginList() {
         return fs.existsSync(plugins_file) ? JSON.parse(fs.readFileSync(plugins_file, 'ascii')) : {};
+    }
+
+    /**
+     * @param {string} pluginName
+     * @param {string} pluginVersion
+     * @returns {Promise}
+     */
+    static removePlugin(path, pluginName, pluginVersion) {
+        const plugins = this.getPluginList();
+        for (const plugin of Object.keys(plugins)) {
+            if (plugins[plugin].name == pluginName && plugins[plugin].version == pluginVersion) {
+                try { fs.rmSync(`${path}/${plugin}`); } catch {}
+                try { fs.rmSync(`${path}/${plugin}.disabled`); } catch {}
+                delete plugins[plugin];
+                fs.writeFileSync(plugins_file, JSON.stringify(plugins));
+                return {success: true, error: false, reason: null};
+            }
+        }
+        return {success: false, error: true, reason: "The plugin does not exist"};
+    }
+
+    /**
+     * @param {string} pluginName
+     * @param {string} pluginVersion
+     * @returns {Promise}
+     */
+    static togglePlugin(path, pluginName, pluginVersion) {
+        const plugins = this.getPluginList();
+        for (const plugin of Object.keys(plugins)) {
+            if (plugins[plugin].name == pluginName && plugins[plugin].version == pluginVersion) {
+                const disabled = /.disabled$/.test(plugin);
+                const newPath = `${path}/${disabled ? plugin.replace(/.disabled$/, '') : plugin + '.disabled'}`;
+                console.log(`${path}/${plugin}`, newPath);
+                try { fs.renameSync(`${path}/${plugin}`, newPath); } catch(e) {
+                    return {success: false, error: true, reason: "The file is busy"};
+                }
+                delete plugins[plugin];
+                fs.writeFileSync(plugins_file, JSON.stringify(plugins));
+                this.updatePluginInfo(newPath);
+                return {success: true, error: false, reason: null, disabled: !disabled};
+            }
+        }
+        return {success: false, error: true, reason: "The plugin does not exist"};
+    }
+
+    static _clearPluginData() {
+        if (fs.existsSync(plugins_file))
+            fs.rm(plugins_file, () => {});
     }
 
     /**

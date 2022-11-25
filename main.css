@@ -1,9 +1,16 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
 body {
     background-color: #222;
     color: #eee;
+    padding: 50px 20px 20px;
 }
 
 .topmenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     box-shadow: 0 1px 2px 0px black;
     margin-bottom: 25px;
 }
@@ -21,4 +28,46 @@ body {
 
 .topmenu a i {
     margin-right: 10px;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #0005;
+    backdrop-filter: blur(4px);
+    display: none;
+}
+
+.modal-container .modal-view {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #eee;
+    color: #222;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.popup-list {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 35%;
+}
+
+.popup-list .popup {
+    font-size: 12px;
+    padding: 10px 15px;
+}
+
+.popup-list .popup .close {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
 }

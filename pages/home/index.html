@@ -12,12 +12,15 @@
 </head>
 <body>
     <h1>MCAdmin</h1>
+    <div class="status">
+        <div class="visual"></div>
+        <p id="status"></p>
+    </div>
     <button class="btn btn-success" id="start">Start</button>
     <button class="btn btn-danger" id="stop">Stop</button>
-    <p id="status">Running</p>
     <div class="console container">
         <div class="screen"></div>
-        <i class="bi bi-arrow-down" id="scroll-down">
+        <i class="bi bi-arrow-down" style="display: none" id="scroll-down">
             <p>10</p>
         </i>
         <form class="input row">
@@ -28,6 +31,22 @@
                 <button type="submit" class="btn btn-primary form-control">Send</button>
             </div>
         </form>
+    </div>
+    <div class="modal-container service-control">
+        <div class="modal-view">
+            <div class="row">
+                <div class="col">
+                    <h3>Service control</h3>
+                    <p>The minecraft service is down. What would you like to do?</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-success" id="kickstart">Kickstart</button>
+                    <button class="btn btn-warning" id="ignore">Ignore</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

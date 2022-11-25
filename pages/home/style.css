@@ -1,3 +1,24 @@
+.status {
+    display: flex;
+    align-items: center;
+    margin: 0 0 1rem;
+}
+
+.status .visual {
+    height: 15px;
+    width: 15px;
+    background-color: #FFC107;
+    border-radius: 50%;
+}
+
+.status .visual[status=success] { background-color: #4CAF50; }
+.status .visual[status=danger] { background-color: #F44336; }
+
+.status #status {
+    padding: 0 0 0 5px;
+    margin: 0;
+}
+
 .console {
     margin: 25px auto;
 	position: relative;

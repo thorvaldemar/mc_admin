@@ -3,6 +3,30 @@ p {
     margin: 0;
 }
 
+.pluginUpload {
+    background-color: #eee;
+    color: #222;
+    width: 400px;
+    margin: 25px auto;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.pluginUpload.dragging {
+    box-shadow: 0 0 10px #2196f3;
+}
+
+.pluginUpload p {
+    pointer-events: none;
+    margin-bottom: 10px;
+}
+
+.pluginUpload #plugin {
+    display: none;
+}
+
 .plugins {
     list-style: none;
     padding: 10px 20px;
@@ -11,6 +35,11 @@ p {
     border: 2px solid #aaa;
     border-top: none;
     border-bottom: none;
+}
+
+.plugins #comment {
+    text-align: center;
+    color: #888;
 }
 
 .plugins .plugin {

@@ -9,4 +9,21 @@ document.writeln(`
 
 window.onload = (event) => {
     $.post('/topmenu', html => $('body').prepend($(html)));
+    $('body').append(`<div class="popup-list"></div>`);
 };
+
+/**
+ * @param {string} msg 
+ * @param {'success'|'danger'|'warning'} type 
+ */
+function popup(msg, type = 'danger') {
+    const al = $(`
+        <div class="popup alert alert-${type}" role="alert">
+            <strong>${type.toUpperCase()}!</strong> ${msg}
+            <i class="close bi bi-x"></i>
+        </div>
+    `);
+    $('.popup-list').prepend(al);
+    setTimeout(() => al.fadeOut(500, function() { $(this).remove(); }), 5000);
+    al.find('.close').on('click', function() { $(this).parent().remove(); });
+}
